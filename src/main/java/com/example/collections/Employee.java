@@ -3,12 +3,15 @@ package com.example.collections;
 import java.util.Objects;
 
 public class Employee {
-    private String firstName;
-    private String lastName;
+    private  String firstName;
+    private  String lastName;
+    private int id;
+    private static int counter = 1;
 
     public Employee(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.id = counter++;
     }
 
     public String getFirstName() {
@@ -17,6 +20,18 @@ public class Employee {
 
     public String getLastName() {
         return lastName;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public String toString() {
+        return "Сотрудник{ " +
+                "Имя=' " + firstName + '\'' +
+                ", Фамилия=' " + lastName + '\'' +
+                '}';
     }
 
     @Override
@@ -30,13 +45,5 @@ public class Employee {
     @Override
     public int hashCode() {
         return Objects.hash(firstName, lastName);
-    }
-
-    @Override
-    public String toString() {
-        return "Сотрудник{" +
-                "Имя='" + firstName + '\'' +
-                ", Фамилия='" + lastName + '\'' +
-                '}';
     }
 }

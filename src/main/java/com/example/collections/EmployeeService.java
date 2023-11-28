@@ -3,12 +3,12 @@ package com.example.collections;
 import com.example.collections.exception.EmployeeStorageIsFullException;
 
 public interface EmployeeService {
-    String addEmployee(String fistName, String lastName) throws EmployeeStorageIsFullException;
 
+    String addEmployee(String firstName, String lastName);
 
-    String removeEmploy(String firstName, String lastName) throws RuntimeException;
+    String removeEmployee(String fistName, String lastName);
 
-    String findEmployee(String firstName, String lastName) throws RuntimeException;
+    String findEmployee(String fistName, String lastName);
 
     String print();
 }
