@@ -32,7 +32,7 @@ public class EmployeeController {
 @GetMapping("/remove")
     public String remove(@RequestParam("firstName") String fistName, @RequestParam("lastName") String lastName) {
         try {
-            return employeeService.removeEmploy(fistName, lastName);
+            return employeeService.removeEmployee(fistName, lastName);
         } catch (
                 EmployeeNotFoundException e) {
             return "Удаляемый сотрудник не найден";
