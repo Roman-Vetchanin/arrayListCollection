@@ -5,18 +5,24 @@ import java.util.Objects;
 public class Employee {
     private  String firstName;
     private  String lastName;
+
     private int department;
     private int salary;
+
+    private int id;
+    private static int counter = 1;
 
     public Employee(String firstName, String lastName, int department, int salary) {
         this.firstName = firstName;
         this.lastName = lastName;
+
         this.department = department;
         this.salary = salary;
     }
 
     public String getLastName() {
         return lastName;
+        this.id = counter++;
     }
 
     public String getFirstName() {
@@ -29,6 +35,18 @@ public class Employee {
 
     public int getSalary() {
         return salary;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public String toString() {
+        return "Сотрудник{ " +
+                "Имя=' " + firstName + '\'' +
+                ", Фамилия=' " + lastName + '\'' +
+                '}';
     }
 
     @Override
