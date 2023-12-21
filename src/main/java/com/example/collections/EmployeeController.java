@@ -18,9 +18,10 @@ public class EmployeeController {
     }
 
     @GetMapping("/add")
-    public String add(@RequestParam("firstName") String fistName, @RequestParam("lastName") String lastName) {
+    public String add(@RequestParam("firstName") String fistName, @RequestParam("lastName") String lastName
+            ,@RequestParam("departmetn") int department, @RequestParam("salary") int salary) {
         try {
-            return employeeService.addEmployee(fistName, lastName);
+            return employeeService.addEmployee(fistName, lastName,department,salary);
         } catch (
                 EmployeeStorageIsFullException e) {
             return "Штат заполнен";
