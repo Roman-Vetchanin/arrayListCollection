@@ -5,4 +5,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
 public class EmployeeAlreadyAddedException extends RuntimeException{
+    public EmployeeAlreadyAddedException(String message) {
+        super(message);
+    }
 }

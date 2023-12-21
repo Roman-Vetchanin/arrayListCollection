@@ -1,6 +1,7 @@
 package com.example.collections;
 
 import com.example.collections.exception.EmployeeAlreadyAddedException;
+import com.example.collections.exception.EmployeeInvalidInputException;
 import com.example.collections.exception.EmployeeNotFoundException;
 import com.example.collections.exception.EmployeeStorageIsFullException;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,35 +19,38 @@ public class EmployeeController {
     }
 
     @GetMapping("/add")
-    public String add(@RequestParam("firstName") String fistName, @RequestParam("lastName") String lastName) {
+    public Employee add(@RequestParam("firstName") String fistName, @RequestParam("lastName") String lastName
+            ,@RequestParam("departmetn") int department, @RequestParam("salary") int salary) {
         try {
-            return employeeService.addEmployee(fistName, lastName);
+            return employeeService.addEmployee(fistName, lastName, department, salary);
         } catch (
                 EmployeeStorageIsFullException e) {
-            return "Штат заполнен";
+            throw new EmployeeStorageIsFullException("Штат заполнен");
         } catch (
                 EmployeeAlreadyAddedException e) {
-            return "Такой сотрудник уже есть";
+            throw new EmployeeAlreadyAddedException("Такой сотрудник уже есть");
+        } catch (EmployeeInvalidInputException e) {
+            throw new EmployeeInvalidInputException("Введены не корректные данные");
         }
     }
-@GetMapping("/remove")
-    public String remove(@RequestParam("firstName") String fistName, @RequestParam("lastName") String lastName) {
+    @GetMapping("/remove")
+    public Employee remove(@RequestParam("firstName") String fistName, @RequestParam("lastName") String lastName) {
         try {
-            return employeeService.removeEmploy(fistName, lastName);
+            return employeeService.removeEmployee(fistName, lastName);
         } catch (
                 EmployeeNotFoundException e) {
-            return "Удаляемый сотрудник не найден";
+            throw new EmployeeNotFoundException("Удаляемый сотрудник не найден");
         }
     }
-@GetMapping("/find")
-    public String find(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName) {
+    @GetMapping("/find")
+    public Employee find(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName) {
         try {
             return employeeService.findEmployee(firstName, lastName);
         }catch (EmployeeNotFoundException e) {
-            return "Сотрудник не найден";
+            throw new EmployeeNotFoundException("Сотрудник не найден");
         }
     }
-@GetMapping("/print")
+    @GetMapping("/print")
     public String print() {
         return employeeService.print();
     }

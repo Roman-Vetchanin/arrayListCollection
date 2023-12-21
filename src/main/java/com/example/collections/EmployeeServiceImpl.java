@@ -1,70 +1,74 @@
 package com.example.collections;
 
+import com.example.collections.exception.EmployeeInvalidInputException;
 import com.example.collections.exception.EmployeeNotFoundException;
-
 import com.example.collections.exception.EmployeeAlreadyAddedException;
 import com.example.collections.exception.EmployeeStorageIsFullException;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
-    private final List<Employee> employees = new ArrayList<>(List.of(new Employee("ivan", "ivanov"),
-            new Employee("dobrinya", "nikitich"),
-            new Employee("aleha", "popovich")));
+    private final Map<String, Employee> employees = new HashMap<>();
 
-
-    private boolean employeeAvailabilityCheck(String firstName, String lastName) {
-        for (Employee employee : employees) {
-            if (employee.getFirstName().equals(firstName) && employee.getLastName().equals(lastName)) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     @Override
-    public String addEmployee(String fistName, String lastName) throws RuntimeException {
-        Employee employee = new Employee(fistName, lastName);
+    public Employee addEmployee(String firstName, String lastName, int department, int salary) {
+        String key = buildKey(firstName, lastName);
+        String modifiedFirstName = StringUtils.lowerCase(firstName);
+        String modifiedLastName = StringUtils.lowerCase(lastName);
         final int LIMIT = 3;
-        if (employees.size() > LIMIT) {
-            throw new EmployeeStorageIsFullException();
-        } else if (employeeAvailabilityCheck(fistName, lastName)) {
-            throw new EmployeeAlreadyAddedException();
+        if (employees.containsKey(key)) {
+            throw new EmployeeAlreadyAddedException("Такой сотрудник уже есть");
+        } else if (employees.size() >= LIMIT) {
+            throw new EmployeeStorageIsFullException("Штат заполнен");
         } else {
-            employees.add(employee);
+            return employees.put(key, new Employee(modifiedFirstName,modifiedLastName,department,salary));
         }
-        return "Сотрудник " + fistName + " " + lastName + " добавлен";
     }
 
     @Override
-    public String removeEmploy(String firstName, String lastName) throws RuntimeException {
-        for (Employee employee : employees) {
-            if (employee.getFirstName().equals(firstName) && employee.getLastName().equals(lastName)) {
-                employees.remove(employee);
-                return employee + " удален";
-            }
+    public Employee removeEmployee(String fistName, String lastName) {
+        String key = buildKey(fistName, lastName);
+        if (employees.containsKey(key)) {
+            return employees.remove(key);
+        } else {
+            throw new EmployeeNotFoundException("Удаляемый сотрудник не найден");
         }
-        throw new EmployeeNotFoundException();
     }
 
     @Override
-    public String findEmployee(String firstName, String lastName) throws RuntimeException {
-        for (Employee employee : employees) {
-            if (employee.getFirstName().equals(firstName) && employee.getLastName().equals(lastName)) {
-                return employee + " найден";
-            }
+    public Employee findEmployee(String fistName, String lastName) {
+        String key = buildKey(fistName, lastName);
+        if (employees.containsKey(key)) {
+            return employees.get(key);
         }
-        throw new EmployeeNotFoundException();
+        throw new EmployeeNotFoundException("Сотрудник не найден");
     }
 
     @Override
     public String print() {
-        for (int i = 0; i < employees.size(); i++) {
-            return employees.toString();
-        }
-        return "Сотрудники: ";
+        return employees.values().toString();
     }
+    @Override
+    public Collection<Employee> findAll() {
+        return Collections.unmodifiableCollection(employees.values());
+    }
+
+    private String buildKey(String firstName, String lastName) {
+        String modifiedFirstName = StringUtils.lowerCase(firstName);
+        String modifiedLastName = StringUtils.lowerCase(lastName);
+        if (!StringUtils.isAlpha(StringUtils.trim(modifiedFirstName)) && !StringUtils.isAlpha(StringUtils.trim(modifiedLastName))) {
+            throw new EmployeeInvalidInputException("Имя или фамилия содержит не допустимые символы");
+        } else if (StringUtils.isNumeric(StringUtils.trim(modifiedFirstName))&&StringUtils.isNumeric(StringUtils.trim(modifiedLastName))) {
+            throw new EmployeeInvalidInputException("Имя или фамилия содержит числа");
+        }else {
+            return StringUtils.capitalize(StringUtils.trim(modifiedFirstName)) + " "
+                    + StringUtils.capitalize(StringUtils.trim(lastName));
+        }
+    }
+
+
 }
