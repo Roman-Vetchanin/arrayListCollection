@@ -7,7 +7,7 @@ Spring framework </br>
 And-points:</br>
 -/max-salary дает информацию по максимальной з/п в отделе.</br>
 -/min-salary дает информацию по минимальной з/п в отделе.</br>
--/printDepartmentAll={departmentId} дает информацию по сотрудника в департаменте.</br>
+-/printDepartmentAll?departmentId={departmentId} дает информацию по сотрудника в департаменте.</br>
 -/printDepartmentAll дает информацию по всем департаментам и их сотрудникам.</br>
 Работа с сотрудниками http://localhost:8080/employee. </br>
 -/add?firstName={firstName}&lstName={lastName}&department={department}&salary={salary} добавляет нового сотрудника.</br>
