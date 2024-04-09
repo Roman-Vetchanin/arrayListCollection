@@ -4,7 +4,7 @@ Java 17 </br>
 Spring framework </br>
 Для хранения всей информации о сотрудниках использовано HashMap.</br>
 Запуск проекта осуществляется через IDE. После запуска необходиа перейти в по адресу http://localhost:8080/department. </br>
-And-points:
+And-points:</br>
 -/max-salary дает информацию по максимальной з/п в отделе.</br>
 -/min-salary дает информацию по минимальной з/п в отделе.</br>
 -/printDepartmentAll={departmentId} дает информацию по сотрудника в департаменте.</br>
