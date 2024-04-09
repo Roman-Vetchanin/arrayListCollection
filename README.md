@@ -10,7 +10,7 @@ And-points:
 -/printDepartmentAll={departmentId} дает информацию по сотрудника в департаменте.</br>
 -/printDepartmentAll дает информацию по всем департаментам и их сотрудникам.</br>
 Работа с сотрудниками http://localhost:8080/employee. </br>
--/add?firstName={firstName}&lstname={lastName}&department={department}&salary{salary} добавляет нового сотрудника.</br>
+-/add?firstName={firstName}&lstName={lastName}&department={department}&salary={salary} добавляет нового сотрудника.</br>
 -/remove?firstName={firstName}&lstname={lastName} удаляеи сотрудника имени и фамилии.</br>
 -/find?firstName={firstName}&lstname={lastName} найти сотрудника по имени и фамилии.</br>
 -/print выводит всех сотрудников и в каком департаменте.
